@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { AuthResponseModel } from './models/auth-response.model';
 import { TokenDto } from './dto/token.dto';
-import { OrganizationResponseModel } from './models/organization.dto';
+import { OrganizationResponseModel } from './models/organization.model';
 import axios from 'axios';
 import { CredentialDto } from './dto/credentials.dto';
 
