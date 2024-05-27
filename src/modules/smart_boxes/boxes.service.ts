@@ -9,7 +9,7 @@ export class BoxesService {
   async getSmartBoxes(
     user: AuthCredentialDto,
     smartBoxeskDto: SmartBoxesDto,
-  ): Promise<any> {
+  ): Promise<SmartBoxesResponseModel> {
     console.log('Request', smartBoxeskDto);
     const authHeader = `Basic ${Buffer.from(`${user.username}:${user.password}`).toString('base64')}`;
     const { data } = await axios.get<SmartBoxesResponseModel>(

@@ -1,8 +1,8 @@
 import { BoxesService } from './boxes.service';
 import { Controller, Post, Body, Headers } from '@nestjs/common';
 import { SmartBoxesDto } from './dto/smartBoxes.dto';
-import { CredentialDto } from './dto/credentials.dto';
 import { AuthCredentialDto } from '../auth/dto/auth-credentials.dto';
+import { SmartBoxesResponseModel } from './models/boxes-response.model';
 
 @Controller('/oraganization')
 export class BoxesController {
@@ -12,7 +12,7 @@ export class BoxesController {
   async getCredencials(
     @Headers('Authorization') authHeader: string,
     @Body() smartBoxeskDto: SmartBoxesDto,
-  ): Promise<CredentialDto> {
+  ): Promise<SmartBoxesResponseModel> {
     const authData = this.parseBasicAuth(authHeader);
     const user: AuthCredentialDto = {
       username: authData.username,
