@@ -1,22 +1,22 @@
 import { AuthService } from './auth.service';
 import { Controller, Post, Headers } from '@nestjs/common';
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
-import { TokenDto } from './dto/token.dto';
+import { CredentialDto } from './dto/credentials.dto';
 
-@Controller('authorization')
+@Controller('/authorization')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  async getToken(
+  @Post('/keycafe')
+  async getCredencials(
     @Headers('Authorization') authHeader: string,
-  ): Promise<TokenDto> {
+  ): Promise<CredentialDto> {
     const authData = this.parseBasicAuth(authHeader);
     const user: AuthCredentialDto = {
       username: authData.username,
       password: authData.password,
     };
-    return this.authService.getToken(user);
+    return this.authService.getCredential(user);
   }
 
   private parseBasicAuth(authHeader: string): {
