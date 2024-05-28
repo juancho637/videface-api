@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ExampleModule } from './modules/example';
 import { AuthModule } from './modules/auth';
 import { BoxesModule } from './modules/smart_boxes';
+import { ConfigurationModule } from './modules/adapters/configuration/configuration.module';
+import { FirestoreModule } from './modules/adapters/fire-store-db/fire-store-db.module';
 
 @Module({
-  imports: [ExampleModule, AuthModule, BoxesModule],
+  imports: [ConfigurationModule, AuthModule, BoxesModule, FirestoreModule],
 })
 export class AppModule {}
