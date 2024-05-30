@@ -7,7 +7,7 @@
       "cweijan.vscode-mysql-client2",
       "guilhermetheodoro.typescript-indexing",
       "usernamehw.errorlens",
-      "kavod-io.vscode-jest-test-adapter",
-      "kisstkondoros.vscode-codemetrics"
+      "kisstkondoros.vscode-codemetrics",
+      "orta.vscode-jest"
     ]
   }
