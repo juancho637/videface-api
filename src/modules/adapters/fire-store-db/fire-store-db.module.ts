@@ -1,30 +1,26 @@
 import { Module } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { ConfigurationService } from '../configuration/configuration.service';
-import { ConfigService } from '@nestjs/config';
-import { ConfigurationType } from '../configuration/types/configuration.type';
-import { FirebaseConfigType } from '../configuration/types/firebase-config.type';
+import { ConfigurationModule, ConfigurationService } from '../configuration';
 
 @Module({
+  imports: [ConfigurationModule],
   providers: [
     {
       provide: 'FIRESTORE',
       inject: [ConfigurationService],
-      useFactory: (configService: ConfigService<ConfigurationType>) => {
+      useFactory: async (configurationService: ConfigurationService) => {
+        const firebaseConfig = configurationService.getConfig().firebase;
+
         const adminConfig = {
           credential: admin.credential.cert({
-            projectId:
-              configService.get<FirebaseConfigType>('firebase')
-                .firebaseProjectId,
-            clientEmail:
-              configService.get<FirebaseConfigType>('firebase')
-                .firebaseClientEmail,
-            privateKey: configService
-              .get<FirebaseConfigType>('firebase')
-              .firebasePrivateKey.replace(/\\n/g, '\n'),
+            projectId: firebaseConfig.firebaseProjectId,
+            clientEmail: firebaseConfig.firebaseClientEmail,
+            privateKey: firebaseConfig.firebasePrivateKey.replace(/\\n/g, '\n'),
           }),
         };
+
         admin.initializeApp(adminConfig);
+
         return admin.firestore();
       },
     },

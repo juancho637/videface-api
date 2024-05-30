@@ -5,8 +5,17 @@ import { KeyCafeCredentialsRepositoryInterface } from './interfaces/keycafe-cred
 export class KeyCafeCredentialsFireStoreRepository
   implements KeyCafeCredentialsRepositoryInterface
 {
-  constructor(@Inject('FIRESTORE') private readonly firestore: typeof admin) {}
-  getCredential(company: string): Promise<any> {
-    throw new Error('Method not implemented.');
+  constructor(
+    @Inject('FIRESTORE') private readonly firestore: admin.firestore.Firestore,
+  ) {}
+  async getCredential(company: string): Promise<any> {
+    const credentials = await this.firestore
+      .collection('companies')
+      .doc(company)
+      .collection('global')
+      .doc('generalInfo')
+      .get();
+
+    return credentials.data().keyCafeAuth;
   }
 }
