@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { AuthResponseModel } from './models/auth-response.model';
 import { TokenDto } from './dto/token.dto';
 import { OrganizationResponseModel } from './models/organization.model';
 import axios from 'axios';
 import { CredentialDto } from './dto/credentials.dto';
+import { KeyCafeCredentialsService } from '../keycafe-credentials/keycafe-credentials.service';
+import { RequestCredentialDto } from './dto/request-credentials.dto';
+import { KeyCafeCredentialDto } from '../keycafe-credentials/dto/keycafe-credentials.dto';
 
 @Injectable()
 export class AuthService {
-  async getToken(user: AuthCredentialDto): Promise<TokenDto> {
-    const authHeader = `Basic ${Buffer.from(`${user.username}:${user.password}`).toString('base64')}`;
+  constructor(
+    private readonly keyCafeCredentialsService: KeyCafeCredentialsService,
+  ) {}
+  async getToken(credential: KeyCafeCredentialDto): Promise<TokenDto> {
+    const authHeader = `Basic ${Buffer.from(`${credential.email}:${credential.pass}`).toString('base64')}`;
     const { data } = await axios.post<AuthResponseModel>(
       'https://www.keycafe.com/v0/authorization',
       {},
@@ -22,9 +27,15 @@ export class AuthService {
     return { token: data.token };
   }
 
-  async getCredential(user: AuthCredentialDto): Promise<CredentialDto> {
-    const getToken = await this.getToken(user);
-    const authHeader = `Basic ${Buffer.from(`${user.username}:${user.password}`).toString('base64')}`;
+  async getCredential(
+    authorizationKeyCafeDto: RequestCredentialDto,
+  ): Promise<CredentialDto> {
+    const credential = await this.keyCafeCredentialsService.getCredential(
+      authorizationKeyCafeDto.companyName,
+    );
+    const getToken = await this.getToken(credential);
+    console.log('credencials', credential);
+    const authHeader = `Basic ${Buffer.from(`${credential.email}:${credential.pass}`).toString('base64')}`;
     const { data } = await axios.get<OrganizationResponseModel>(
       'https://www.keycafe.com/v0/organization/current',
       {
@@ -33,6 +44,11 @@ export class AuthService {
         },
       },
     );
-    return { id: data.id, name: data.name, token: getToken.token };
+    return {
+      organizationId: data.id,
+      name: data.name,
+      email: `${credential.email}/token`,
+      token: getToken.token,
+    };
   }
 }

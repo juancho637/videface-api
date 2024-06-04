@@ -1,5 +1,6 @@
 export class CredentialDto {
-  id: number;
+  organizationId: number;
   name: string;
+  email: string;
   token: string;
 }

@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { FirestoreModule } from '../adapters/fire-store-db';
-import { KeyCafeCredentialsController } from './keycafe-credentials.controller';
 import { KeyCafeCredentialsService } from './keycafe-credentials.service';
 import { KeyCafeCredentialsRepositoryInterface } from './interfaces';
 import { KeyCafeCredentialsFireStoreRepository } from './keycafe-credentials-firestore.repository';
 
 @Module({
   imports: [FirestoreModule],
-  controllers: [KeyCafeCredentialsController],
   providers: [
     {
       provide: 'KeyCafeCredentialsRepository',
@@ -21,5 +19,6 @@ import { KeyCafeCredentialsFireStoreRepository } from './keycafe-credentials-fir
       },
     },
   ],
+  exports: [KeyCafeCredentialsService],
 })
 export class KeyCafeCredentialsModule {}

@@ -1,3 +1,4 @@
+import { KeyCafeCredentialDto } from './dto/keycafe-credentials.dto';
 import { KeyCafeCredentialsRepositoryInterface } from './interfaces/keycafe-credentialls-repository.interface';
 
 export class KeyCafeCredentialsService {
@@ -5,7 +6,7 @@ export class KeyCafeCredentialsService {
     private readonly keyCafeCredentialsRepository: KeyCafeCredentialsRepositoryInterface,
   ) {}
 
-  async getCredential(company: string): Promise<any> {
-    return await this.keyCafeCredentialsRepository.getCredential(company);
+  async getCredential(companyName: string): Promise<KeyCafeCredentialDto> {
+    return await this.keyCafeCredentialsRepository.getCredential(companyName);
   }
 }

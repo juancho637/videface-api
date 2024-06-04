@@ -1,8 +1,8 @@
 import { BoxesService } from './boxes.service';
 import { Controller, Post, Body, Headers } from '@nestjs/common';
 import { SmartBoxesDto } from './dto/smartBoxes.dto';
-import { AuthCredentialDto } from '../auth/dto/auth-credentials.dto';
 import { SmartBoxesResponseModel } from './models/boxes-response.model';
+import { AuthSmartBoxesDto } from './dto/auth-smartBoxes.dto';
 
 @Controller('/oraganization')
 export class BoxesController {
@@ -14,7 +14,7 @@ export class BoxesController {
     @Body() smartBoxeskDto: SmartBoxesDto,
   ): Promise<SmartBoxesResponseModel> {
     const authData = this.parseBasicAuth(authHeader);
-    const user: AuthCredentialDto = {
+    const user: AuthSmartBoxesDto = {
       username: authData.username,
       password: authData.password,
     };

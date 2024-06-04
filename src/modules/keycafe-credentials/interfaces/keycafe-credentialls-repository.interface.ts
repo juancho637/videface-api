@@ -1,3 +1,5 @@
+import { KeyCafeCredentialDto } from '../dto/keycafe-credentials.dto';
+
 export interface KeyCafeCredentialsRepositoryInterface {
-  getCredential(company: string): Promise<any>;
+  getCredential(companyName: string): Promise<KeyCafeCredentialDto>;
 }

@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { KeyCafeCredentialsRepositoryInterface } from './interfaces/keycafe-credentialls-repository.interface';
+import { KeyCafeCredentialDto } from './dto/keycafe-credentials.dto';
 
 export class KeyCafeCredentialsFireStoreRepository
   implements KeyCafeCredentialsRepositoryInterface
@@ -8,10 +9,10 @@ export class KeyCafeCredentialsFireStoreRepository
   constructor(
     @Inject('FIRESTORE') private readonly firestore: admin.firestore.Firestore,
   ) {}
-  async getCredential(company: string): Promise<any> {
+  async getCredential(companyName: string): Promise<KeyCafeCredentialDto> {
     const credentials = await this.firestore
       .collection('companies')
-      .doc(company)
+      .doc(companyName)
       .collection('global')
       .doc('generalInfo')
       .get();

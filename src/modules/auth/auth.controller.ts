@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
-import { Controller, Post, Headers } from '@nestjs/common';
-import { AuthCredentialDto } from './dto/auth-credentials.dto';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CredentialDto } from './dto/credentials.dto';
+import { RequestCredentialDto } from './dto/request-credentials.dto';
 
 @Controller('/authorization')
 export class AuthController {
@@ -9,14 +9,9 @@ export class AuthController {
 
   @Post('/keycafe')
   async getCredencials(
-    @Headers('Authorization') authHeader: string,
+    @Body() authorizationKeyCafeDto: RequestCredentialDto,
   ): Promise<CredentialDto> {
-    const authData = this.parseBasicAuth(authHeader);
-    const user: AuthCredentialDto = {
-      username: authData.username,
-      password: authData.password,
-    };
-    return this.authService.getCredential(user);
+    return this.authService.getCredential(authorizationKeyCafeDto);
   }
 
   private parseBasicAuth(authHeader: string): {

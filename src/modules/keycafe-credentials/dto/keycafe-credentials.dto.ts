@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
-export class AuthCredentialDto {
+export class KeyCafeCredentialDto {
   @IsNotEmpty()
-  username: string;
+  email: string;
   @IsNotEmpty()
-  password: string;
+  pass: string;
 }
