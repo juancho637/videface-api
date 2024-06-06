@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { KeyCafeCredentialsRepositoryInterface } from './interfaces/keycafe-credentialls-repository.interface';
-import { KeyCafeCredentialDto } from './dto/keycafe-credentials.dto';
+import { KeyCafeCredentialsRepositoryInterface } from '../interfaces/keycafe-credentialls-repository.interface';
+import { KeyCafeCredentialDto } from '../dto/keycafe-credentials.dto';
 
 export class KeyCafeCredentialsFireStoreRepository
   implements KeyCafeCredentialsRepositoryInterface

@@ -4,7 +4,7 @@ import { SmartBoxesDto } from './dto/smartBoxes.dto';
 import { SmartBoxesResponseModel } from './models/boxes-response.model';
 import { AuthSmartBoxesDto } from './dto/auth-smartBoxes.dto';
 
-@Controller('/oraganization')
+@Controller('/organization')
 export class BoxesController {
   constructor(private readonly boxesService: BoxesService) {}
 
@@ -18,7 +18,7 @@ export class BoxesController {
       username: authData.username,
       password: authData.password,
     };
-    return this.boxesService.getSmartBoxes(user, smartBoxeskDto);
+    return this.boxesService.getLockerStatus(user, smartBoxeskDto);
   }
 
   private parseBasicAuth(authHeader: string): {

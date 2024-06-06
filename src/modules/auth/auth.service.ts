@@ -16,7 +16,7 @@ export class AuthService {
   async getToken(credential: KeyCafeCredentialDto): Promise<TokenDto> {
     const authHeader = `Basic ${Buffer.from(`${credential.email}:${credential.pass}`).toString('base64')}`;
     const { data } = await axios.post<AuthResponseModel>(
-      'https://www.keycafe.com/v0/authorization',
+      `${process.env.HOST_KEYCAFE}/authorization`,
       {},
       {
         headers: {
@@ -34,10 +34,9 @@ export class AuthService {
       authorizationKeyCafeDto.companyName,
     );
     const getToken = await this.getToken(credential);
-    console.log('credencials', credential);
     const authHeader = `Basic ${Buffer.from(`${credential.email}:${credential.pass}`).toString('base64')}`;
     const { data } = await axios.get<OrganizationResponseModel>(
-      'https://www.keycafe.com/v0/organization/current',
+      `${process.env.HOST_KEYCAFE}/organization/current`,
       {
         headers: {
           Authorization: authHeader,
