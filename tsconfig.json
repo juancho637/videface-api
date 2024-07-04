@@ -11,6 +11,11 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      // Common
+      "@common/helpers": ["./src/common/helpers"],
+      "@common/dtos": ["./src/common/dtos"],
+    }
   }
 }
