@@ -1,15 +1,15 @@
 import { paeseBaseAuthHelper } from '@common/helpers';
 import { AccessKeyService } from './access-key.service';
-import { Body, Post, Headers } from '@nestjs/common';
+import { Body, Post, Headers, Controller } from '@nestjs/common';
 import { SendAccessKeyDto } from './dto/send-access-key.dto';
-import { AuthHeaderDto } from '@common/dtos';
 
+@Controller('/organization')
 export class AccessKeyController {
   constructor(private readonly accessKeyService: AccessKeyService) {}
 
   @Post('/access-key')
   async getLockerStatus(
-    @Headers('Authorization') { authHeader }: AuthHeaderDto,
+    @Headers('Authorization') authHeader: string,
     @Body() sendAccessKeyDto: SendAccessKeyDto,
   ) {
     const authData = paeseBaseAuthHelper(authHeader);
