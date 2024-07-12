@@ -1,7 +1,10 @@
 import axios from 'axios';
-import { AccessResponseDto } from './dto/response-access-key.dto';
-import { AccessKeyResponseType } from './types/access-key-response.type';
-import { SendAccessKeyDtoType } from './dto/send-access-key-service.dto';
+import { AccessKeyResponseType } from './types';
+import {
+  SendAccessKeyDtoType,
+  DeleteAccessKeyDtoType,
+  AccessResponseDto,
+} from './dto';
 
 export class AccessKeyService {
   async sendAccessKey({
@@ -42,6 +45,29 @@ export class AccessKeyService {
         throw new Error(`Axios error: ${error.message}`);
       } else {
         throw new Error('Unexpected error sending access key');
+      }
+    }
+  }
+
+  async deleteAccessKey({
+    user,
+    accessKeyId,
+  }: DeleteAccessKeyDtoType): Promise<{ message: string }> {
+    try {
+      const authHeader = `Basic ${Buffer.from(`${user.username}:${user.password}`).toString('base64')}`;
+
+      await axios.delete(`${process.env.HOST_KEYCAFE}/access/${accessKeyId}`, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
+
+      return { message: 'Access key deleted successfully' };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Axios error: ${error.message}`);
+      } else {
+        throw new Error('Unexpected error deleting access key');
       }
     }
   }
