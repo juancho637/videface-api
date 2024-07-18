@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
 import { AccessKeyResponseType } from './types';
 import {
@@ -41,11 +42,13 @@ export class AccessKeyService {
         keyName: data.key.name,
       };
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Axios error: ${error.message}`);
-      } else {
-        throw new Error('Unexpected error sending access key');
-      }
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          message: 'Access key sent unsuccessfully',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
