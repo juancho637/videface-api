@@ -11,24 +11,28 @@ export class BoxesService {
     user: AuthSmartBoxesDto,
     smartBoxeskDto: SmartBoxesDto,
   ): Promise<any> {
-    const getIdBylocker = await this.getSmartBoxes(user, smartBoxeskDto);
-    const getAllLockers = await this.getBins(user, getIdBylocker[0].id);
-    const resultLockerStatu = getAllLockers.map((locker) => {
+    const getDatalocker = await this.getSmartBoxes(user, smartBoxeskDto);
+    const getAllLockers = await this.getBins(user, getDatalocker[0].id);
+    const resultLockerStatus = getAllLockers.map((locker) => {
       const allLockersNewObj = {
         binNumber: locker.binNumber,
         idSmartBox: locker.box.id,
         idLocker: locker.id,
         lastStatusUpdate: locker.box.lastStatusUpdate,
+        location: getDatalocker[0].location.name,
       };
+
       if (locker.key) {
         allLockersNewObj['Status'] = 'TAKEN';
         allLockersNewObj['key'] = locker.key;
       } else {
         allLockersNewObj['Status'] = 'AVAILABLE';
       }
+
       return allLockersNewObj;
     });
-    return resultLockerStatu;
+
+    return resultLockerStatus;
   }
 
   async getSmartBoxes(
